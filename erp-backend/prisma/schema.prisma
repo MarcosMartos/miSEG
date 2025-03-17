@@ -1,9 +1,4 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
+// prisma/schema.prisma
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,4 +6,89 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+// Usuario
+model Usuario {
+  id       Int    @id @default(autoincrement())
+  nombre   String
+  email    String @unique
+  password String
+  rol      String
+
+  ventas   Venta[]
+  compras  Compra[]
+  finanzas Finanzas[]
+}
+
+// Producto
+model Producto {
+  id         Int    @id @default(autoincrement())
+  nombre     String
+  precio     Float
+  stock      Int
+  categoria  String
+  ventas     Venta[]
+  compras    Compra[]
+}
+
+// Cliente
+model Cliente {
+  id        Int    @id @default(autoincrement())
+  nombre    String
+  email     String
+  telefono  String
+  ventas    Venta[]
+}
+
+// Proveedor
+model Proveedor {
+  id        Int    @id @default(autoincrement())
+  nombre    String
+  email     String
+  telefono  String
+  compras   Compra[]
+}
+
+// Venta
+model Venta {
+  id        Int      @id @default(autoincrement())
+  fecha     DateTime
+  total     Float
+  cliente   Cliente  @relation(fields: [clienteId], references: [id])
+  clienteId Int
+  productos Producto[]
+  usuario   Usuario  @relation(fields: [usuarioId], references: [id])
+  usuarioId Int
+}
+
+// Compra
+model Compra {
+  id          Int      @id @default(autoincrement())
+  fecha       DateTime
+  total       Float
+  proveedor   Proveedor @relation(fields: [proveedorId], references: [id])
+  proveedorId Int
+  productos   Producto[]
+  usuario     Usuario  @relation(fields: [usuarioId], references: [id])
+  usuarioId   Int
+}
+
+// Finanzas
+model Finanzas {
+  id        Int      @id @default(autoincrement())
+  tipo      String
+  monto     Float
+  fecha     DateTime
+  detalle   String
+  usuario   Usuario  @relation(fields: [usuarioId], references: [id])
+  usuarioId Int
+}
+
+// Stock
+model Stock {
+  id        Int      @id @default(autoincrement())
+  cantidad  Int
+  producto  Producto @relation(fields: [productoId], references: [id])
+  productoId Int
 }
