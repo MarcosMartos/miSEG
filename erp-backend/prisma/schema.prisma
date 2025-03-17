@@ -1,4 +1,3 @@
-// prisma/schema.prisma
 generator client {
   provider = "prisma-client-js"
 }
@@ -30,6 +29,9 @@ model Producto {
   categoria  String
   ventas     Venta[]
   compras    Compra[]
+
+  // Relación inversa hacia Stock
+  stockItems Stock[]
 }
 
 // Cliente
@@ -87,8 +89,8 @@ model Finanzas {
 
 // Stock
 model Stock {
-  id        Int      @id @default(autoincrement())
-  cantidad  Int
-  producto  Producto @relation(fields: [productoId], references: [id])
-  productoId Int
+  id          Int      @id @default(autoincrement())
+  cantidad    Int
+  productoId  Int
+  producto    Producto @relation(fields: [productoId], references: [id])
 }
