@@ -9,9 +9,6 @@ import ventaRoutes from "./routes/venta.routes.js";
 import compraRoutes from "./routes/compra.routes.js";
 import finanzasRoutes from "./routes/finanzas.routes.js";
 
-import usuarioRoutes from "./routes/usuario.routes.js";
-import productoRoutes from "./routes/producto.routes.js";
-
 const app = express();
 
 app.use(cors());
