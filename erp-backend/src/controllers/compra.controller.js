@@ -9,8 +9,11 @@ export const getCompras = async (req, res) => {
 
 export const createCompra = async (req, res) => {
   const { fecha, total, proveedorId, usuarioId } = req.body;
+
+  const fechaCompra = new Date(fecha);
+
   const compra = await prisma.compra.create({
-    data: { fecha, total, proveedorId, usuarioId },
+    data: { fecha: fechaCompra, total, proveedorId, usuarioId },
   });
   res.json(compra);
 };

@@ -4,7 +4,7 @@ import {
   createFinanzas,
   deleteFinanzas,
 } from "../controllers/finanzas.controller.js";
-import { authenticateUser, authorizeAdmin } from "../middleware/auth.js";
+import { authenticateUser, authorizeAdmin } from "../middlewares/auth.js";
 
 const router = express.Router();
 
